@@ -1,0 +1,22 @@
+# Use the official PHP image with Apache
+FROM php:apache
+
+
+ARG HTTP_PROXY=http://amolob:am111@192.168.12.58:8080
+ARG HTTPS_PROXY=http://amolob:am111@192.168.12.58:8080
+
+# Install additional PHP extensions if needed
+# Example: Install mysqli and pdo_mysql extensions
+RUN docker-php-ext-install mysqli pdo_mysql
+
+# Enable Apache mod_rewrite (useful for frameworks like Laravel or WordPress)
+RUN a2enmod rewrite
+
+# Copy application files to the container
+COPY ./src /var/www/html
+
+# Set proper permissions for the web root
+RUN chown -R www-data:www-data /var/www/html
+
+
+EXPOSE 80
